@@ -27,5 +27,5 @@ in folder will be createed file with same name and `.vlc` extetion
 
 to unpack correctly this file use same flag
 ```
-./archiver unpack -m vlc <file name.vlc>
+./archiver unpack -m sf <file name.vlc>
 ```
