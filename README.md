@@ -21,7 +21,7 @@ after that in same folder enter in terminal
 here will be some commands - useful are `pack` and `unpack`
 if you want to pack file with method wirable length code, then enter
 ```
-./archiver pack -m vlc <file name>(with extention)
+./archiver pack -m sf <file name>(with extention)
 ```
 in folder will be createed file with same name and `.vlc` extetion
 
