@@ -11,10 +11,11 @@ type BinaryChunks []BinaryChunk
 
 type BinaryChunk string
 
-type encodingTable map[rune]string
-
+// if you want to change this viriable
+// change NewBinChunk fmt.Sprintf("%08b", code), where 08 - new variable
 const chunksSize = 8
 
+// NewBinChunks splits add data by BinaryChunks, with size of variable chunksSize
 func NewBinChunks(data []byte) BinaryChunks {
 
 	res := make(BinaryChunks, 0, len(data))
@@ -26,10 +27,12 @@ func NewBinChunks(data []byte) BinaryChunks {
 	return res
 }
 
+// NewBinChunk creates unified BinaryChunk with given size
 func NewBinChunk(code byte) BinaryChunk {
 	return BinaryChunk(fmt.Sprintf("%08b", code))
 }
 
+// method BinaryChunks takes them and makes out of it one string
 func (bcs BinaryChunks) ToString() string {
 	var buf strings.Builder
 
@@ -40,6 +43,7 @@ func (bcs BinaryChunks) ToString() string {
 	return buf.String()
 }
 
+// method Bytes takes BinaryChunks and crates one big slice []byte
 func (bcs BinaryChunks) Bytes() []byte {
 	res := make([]byte, 0, len(bcs))
 
@@ -50,6 +54,7 @@ func (bcs BinaryChunks) Bytes() []byte {
 	return res
 }
 
+// method Byte takes BinaryChunk and crates byte
 func (bc BinaryChunk) Byte() byte {
 	bum, err := strconv.ParseUint(string(bc), 2, chunksSize)
 	if err != nil {

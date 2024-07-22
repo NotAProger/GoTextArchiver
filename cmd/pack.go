@@ -3,6 +3,7 @@ package cmd
 import (
 	"archiver/lib/compression"
 	"archiver/lib/compression/vlc"
+	"archiver/lib/compression/vlc/table/shenonFano"
 	"errors"
 	"io"
 	"os"
@@ -32,8 +33,8 @@ func pack(cmd *cobra.Command, args []string) {
 	method := cmd.Flag("method").Value.String()
 
 	switch method {
-	case "vlc":
-		encoder = vlc.New()
+	case "sf":
+		encoder = vlc.New(shenonFano.NewGenerator())
 	default:
 		cmd.PrintErr("unknown comression method")
 	}
@@ -65,13 +66,15 @@ func packedFileName(path string) string {
 	//filepath.Ext(fileName)            // myFile.txt -> .txt
 	//strings.TrimSuffix(fileName, ext) // 'myFile.txt' - '.txt' = 'myFile'
 
-	return strings.TrimSuffix(fileName, filepath.Ext(fileName)) + "." + packedExtention
+	fileName = strings.TrimSuffix(fileName, filepath.Ext(fileName)) + filepath.Ext(fileName)
+
+	return fileName + "." + packedExtention
 }
 
 func init() {
 	rootCmd.AddCommand(packCmd)
 
-	packCmd.Flags().StringP("method", "m", "", "compression method choose: vlc")
+	packCmd.Flags().StringP("method", "m", "", "compression method choose")
 	if err := packCmd.MarkFlagRequired("method"); err != nil {
 		panic("method \"method\" have to be" + err.Error())
 	}

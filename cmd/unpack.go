@@ -3,6 +3,7 @@ package cmd
 import (
 	"archiver/lib/compression"
 	"archiver/lib/compression/vlc"
+	"archiver/lib/compression/vlc/table/shenonFano"
 	"io"
 	"os"
 	"path/filepath"
@@ -17,9 +18,6 @@ var unpackCmd = &cobra.Command{
 	Run:   unpack,
 }
 
-// TODO: take extention from file
-const unpackedExtention = "txt"
-
 func unpack(cmd *cobra.Command, args []string) {
 	if len(args) == 0 || args[0] == "" {
 		hanldeErr(ErrEmptyFile)
@@ -30,8 +28,8 @@ func unpack(cmd *cobra.Command, args []string) {
 	method := cmd.Flag("method").Value.String()
 
 	switch method {
-	case "vlc":
-		decoder = vlc.New()
+	case "sf":
+		decoder = vlc.New(shenonFano.Generator{})
 	default:
 		cmd.PrintErr("unknown decomression method")
 	}
@@ -57,14 +55,12 @@ func unpack(cmd *cobra.Command, args []string) {
 	}
 }
 
-// TODO: refactor this
 func unpackedFileName(path string) string {
 	//								//	path = /path/to/file/myFile.txt
 	fileName := filepath.Base(path) // /path/to/file/myFile.txt -> myFile.txt
 	//filepath.Ext(fileName)            // myFile.txt -> .txt
 	//strings.TrimSuffix(fileName, ext) // 'myFile.txt' - '.txt' = 'myFile'
-
-	return strings.TrimSuffix(fileName, filepath.Ext(fileName)) + "." + unpackedExtention
+	return strings.TrimSuffix(fileName, filepath.Ext(fileName))
 }
 
 func init() {
