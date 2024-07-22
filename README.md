@@ -1,13 +1,13 @@
 # GoTextArchiver
-GoTextArchiver is a simple archiver, which is can compress text files in engilsh letters
+GoTextArchiver is a simple archiver, which is can compress text files
 
 ### Restictions ###
 
-At the moment of writing this readme supported only english letters \(including capital letters\) and spaces
+This archiver for shure works only with txt files, other extentions may work, may ont.
 
 ### How to use ###
 
-When you `cloned` this repo, in folder where you copied archiver 
+When you `clone` this repo, in folder where you copied archiver 
 enter in terminal
 ```
 go build
